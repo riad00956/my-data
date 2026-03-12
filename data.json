@@ -1,0 +1,39 @@
+{
+  "profile": {
+    "image": "https://via.placeholder.com/150/1a1f2e/cccccc?text=👤",
+    "name": "PRIME XYRON",
+    "headline": "developer & AI enthusiast, creative coder",
+    "bio": "crafting immersive web experiences · 5+ years"
+  },
+  "personalDetails": [
+    { "label": "Age", "value": "24", "icon": "calendar" },
+    { "label": "Gender", "value": "Male", "icon": "user" },
+    { "label": "Nationality", "value": "Bangladeshi", "icon": "flag" }
+  ],
+  "details": [
+    { "label": "Location", "value": "kushtia/BD", "icon": "map-pin" },
+    { "label": "Work", "value": "xyron dev", "icon": "briefcase" },
+    { "label": "Email", "value": "ariyanxd02@gmail.com", "icon": "envelope" }
+  ],
+  "skills": [
+    "Python",
+    "PHP",
+    "JavaScript",
+    "Bot Development",
+    "Web Design"
+  ],
+  "socialLinks": [
+    { "platform": "Telegram", "url": "https://t.me/nahin_x_bot", "icon": "fab fa-telegram" },
+    { "platform": "GitHub", "url": "https://github.com/ariyan01", "icon": "fab fa-github" },
+    { "platform": "YouTube", "url": "https://youtube.com/", "icon": "fab fa-youtube" },
+    { "platform": "Website", "url": "unlink", "icon": "fas fa-link" }
+  ],
+  "visitorCounter": 0,
+  "theme": {
+    "primaryColor": "#4affd8",
+    "accentGlow": "#b07cff",
+    "bgStart": "#141b2b",
+    "bgEnd": "#0b0f17",
+    "fireEnabled": false
+  }
+}

@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Admin · 『1』ꪑꫀꪑꫀ ꪜꪖ꠸ꪗꪖ</title>
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-gradient: radial-gradient(circle at 30% 30%, #141b2b, #0b0f17);
+      --card-bg: rgba(18, 25, 40, 0.8);
+      --text-primary: #f0f4ff;
+      --text-secondary: #b4c6e8;
+      --accent: #4affd8;
+      --accent-soft: rgba(74, 255, 216, 0.15);
+      --border-light: rgba(255, 255, 255, 0.1);
+      --input-bg: rgba(0, 0, 0, 0.3);
+      --danger: #ff6b7b;
+      --success: #4affb5;
+    }
+
+    body.light-mode {
+      --bg-gradient: radial-gradient(circle at 30% 30%, #f0f6ff, #d9e2f0);
+      --card-bg: rgba(255, 255, 255, 0.7);
+      --text-primary: #132435;
+      --text-secondary: #2b4b66;
+      --accent: #0066b3;
+      --accent-soft: rgba(0, 102, 179, 0.1);
+      --border-light: rgba(0, 0, 0, 0.1);
+      --input-bg: rgba(255, 255, 255, 0.5);
+      --danger: #c44545;
+      --success: #1e8f5e;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      color: var(--text-primary);
+      transition: background 0.2s, color 0.2s;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .admin-container {
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px) saturate(200%);
+      -webkit-backdrop-filter: blur(20px) saturate(200%);
+      border: 1px solid var(--border-light);
+      border-radius: 2.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 30px 50px -20px rgba(0,0,0,0.7);
+      margin-bottom: 1.8rem;
+      transition: transform 0.2s;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-3px);
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffdb8a, #b0e0ff, #fbbfda);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 0.5rem;
+    }
+
+    h2 i {
+      color: var(--accent);
+    }
+
+    .flex-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-secondary);
+      margin-bottom: 0.2rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.7rem 1.2rem;
+      background: var(--input-bg);
+      border: 1px solid var(--border-light);
+      border-radius: 3rem;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: 0.2s;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    button {
+      background: var(--accent-soft);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+      padding: 0.6rem 1.5rem;
+      border-radius: 3rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    button:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    button.primary {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    button.danger {
+      background: rgba(255, 107, 123, 0.2);
+      border-color: var(--danger);
+    }
+    button.danger:hover {
+      background: rgba(255, 107, 123, 0.3);
+    }
+
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .item-card {
+      background: var(--input-bg);
+      border: 1px solid var(--border-light);
+      border-radius: 2rem;
+      padding: 0.8rem 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .item-card .item-fields {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .item-card input {
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .item-actions {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .login-box {
+      max-width: 360px;
+      margin: 2rem auto;
+      text-align: center;
+    }
+
+    .visitor-control {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    #dashboardArea {
+      display: none;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-light);
+      border-radius: 3rem;
+      padding: 0.5rem 1.2rem;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      font-size: 0.8rem;
+    }
+
+    .footer-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    input[type="color"] {
+      width: 100%;
+      height: 45px;
+      border-radius: 3rem;
+      background: var(--input-bg);
+      border: 1px solid var(--border-light);
+      cursor: pointer;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    .checkbox-group input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--accent);
+    }
+
+    @media (max-width: 480px) {
+      .glass-card { padding: 1.2rem; border-radius: 2rem; }
+      h1 { font-size: 1.8rem; }
+      h2 { font-size: 1.2rem; }
+      button { padding: 0.5rem 1.2rem; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="theme-toggle" id="themeToggle">
+    <i class="fas fa-moon"></i> <span>theme</span>
+  </div>
+
+  <div class="admin-container">
+    <!-- LOGIN AREA -->
+    <div id="loginArea" class="glass-card login-box">
+      <h1><i class="fas fa-lock"></i> admin</h1>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="username" value="username" placeholder="admin">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="password" value="10203040" placeholder="••••••••">
+      </div>
+      <button id="loginBtn" class="primary"><i class="fas fa-sign-in-alt"></i> Access</button>
+    </div>
+
+    <!-- DASHBOARD (visible after login) -->
+    <div id="dashboardArea">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h1><i class="fas fa-cog"></i> control</h1>
+        <button id="logoutBtn" class="danger"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+
+      <!-- PROFILE MANAGER -->
+      <div class="glass-card">
+        <h2><i class="fas fa-user-circle"></i> profile</h2>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Image URL</label>
+            <input type="text" id="profileImage" placeholder="https://...">
+          </div>
+          <div class="form-group">
+            <label>Full name</label>
+            <input type="text" id="profileName" placeholder="Prime Xyron">
+          </div>
+          <div class="form-group">
+            <label>Headline (typing)</label>
+            <input type="text" id="profileHeadline" placeholder="developer & creator">
+          </div>
+          <div class="form-group">
+            <label>Bio</label>
+            <input type="text" id="profileBio" placeholder="crafting immersive web">
+          </div>
+        </div>
+        <button id="saveProfileBtn"><i class="fas fa-save"></i> update profile</button>
+      </div>
+
+      <!-- PERSONAL DETAILS MANAGER -->
+      <div class="glass-card">
+        <h2><i class="fas fa-id-card"></i> personal details (bio data)</h2>
+        <div id="personalDetailsList" class="item-list"></div>
+        <div class="flex-row">
+          <input type="text" id="newPersonalLabel" placeholder="Label (e.g. Age)">
+          <input type="text" id="newPersonalValue" placeholder="Value (e.g. 24)">
+          <input type="text" id="newPersonalIcon" placeholder="Icon (e.g. calendar)">
+          <button id="addPersonalBtn"><i class="fas fa-plus-circle"></i> add</button>
+        </div>
+      </div>
+
+      <!-- DETAILS MANAGER (max 3) -->
+      <div class="glass-card">
+        <h2><i class="fas fa-list"></i> details (max 3)</h2>
+        <div id="detailsList" class="item-list"></div>
+        <div class="flex-row">
+          <input type="text" id="newDetailLabel" placeholder="Label (Location)">
+          <input type="text" id="newDetailValue" placeholder="Value (Helsinki)">
+          <input type="text" id="newDetailIcon" placeholder="Icon (map-pin)">
+          <button id="addDetailBtn"><i class="fas fa-plus-circle"></i> add</button>
+        </div>
+      </div>
+
+      <!-- SKILLS MANAGER -->
+      <div class="glass-card">
+        <h2><i class="fas fa-code"></i> skills</h2>
+        <div id="skillsList" class="item-list"></div>
+        <div class="flex-row">
+          <input type="text" id="newSkill" placeholder="e.g. Python">
+          <button id="addSkillBtn"><i class="fas fa-plus-circle"></i> add</button>
+        </div>
+      </div>
+
+      <!-- SOCIAL LINKS MANAGER (NO LIMIT) -->
+      <div class="glass-card">
+        <h2><i class="fas fa-globe"></i> social links</h2>
+        <div id="socialList" class="item-list"></div>
+        <div class="grid-2" style="margin-top:1rem;">
+          <input type="text" id="newSocialPlatform" placeholder="Platform (Telegram)">
+          <input type="text" id="newSocialUrl" placeholder="URL">
+          <input type="text" id="newSocialIcon" placeholder="Icon class (fab fa-telegram)">
+          <button id="addSocialBtn"><i class="fas fa-plus-circle"></i> add</button>
+        </div>
+      </div>
+
+      <!-- THEME COLORS & FIRE EFFECT -->
+      <div class="glass-card">
+        <h2><i class="fas fa-palette"></i> theme colors & effects</h2>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>primary glow</label>
+            <input type="color" id="primaryColor" value="#4affd8">
+          </div>
+          <div class="form-group">
+            <label>accent glow</label>
+            <input type="color" id="accentColor" value="#b07cff">
+          </div>
+          <div class="form-group">
+            <label>bg gradient start</label>
+            <input type="color" id="bgStart" value="#141b2b">
+          </div>
+          <div class="form-group">
+            <label>bg gradient end</label>
+            <input type="color" id="bgEnd" value="#0b0f17">
+          </div>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="fireEffect">
+          <label for="fireEffect" style="text-transform: none;">🔥 Enable fire animation (particles)</label>
+        </div>
+        <button id="saveThemeBtn"><i class="fas fa-save"></i> update theme</button>
+      </div>
+
+      <!-- VISITOR COUNTER -->
+      <div class="glass-card">
+        <h2><i class="fas fa-chart-line"></i> visitor counter</h2>
+        <div class="visitor-control">
+          <span>current: <strong id="visitorCountDisplay">0</strong></span>
+          <button id="resetVisitorBtn" class="danger"><i class="fas fa-undo-alt"></i> reset</button>
+        </div>
+      </div>
+
+      <!-- SAVE & DOWNLOAD -->
+      <div class="glass-card">
+        <div class="footer-actions">
+          <button id="saveLocalBtn" class="primary"><i class="fas fa-database"></i> save to localStorage</button>
+          <button id="downloadJsonBtn"><i class="fas fa-download"></i> download data.json</button>
+        </div>
+        <p style="margin-top:1rem; color:var(--text-secondary); font-size:0.75rem;">
+          <i class="fas fa-info-circle"></i> সব পরিবর্তন অটোমেটিক localStorage-এ সংরক্ষিত হয়। data.json ডাউনলোড করে ব্যাকআপ নিন।
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // Theme toggle
+      const themeToggle = document.getElementById('themeToggle');
+      const body = document.body;
+      themeToggle.addEventListener('click', () => {
+        body.classList.toggle('light-mode');
+        const icon = themeToggle.querySelector('i');
+        icon.className = body.classList.contains('light-mode') ? 'fas fa-sun' : 'fas fa-moon';
+      });
+
+      // Initialize appData
+      let appData = {
+        profile: { image: '', name: 'PRIME XYRON', headline: 'developer & creator', bio: 'crafting immersive web experiences · 5+ years' },
+        personalDetails: [
+          { label: 'Age', value: '24', icon: 'calendar' },
+          { label: 'Gender', value: 'Male', icon: 'user' },
+          { label: 'Nationality', value: 'Bangladeshi', icon: 'flag' }
+        ],
+        details: [
+          { label: 'Location', value: 'Helsinki, Finland', icon: 'map-pin' },
+          { label: 'Work', value: 'Lead dev @NeoStack', icon: 'briefcase' },
+          { label: 'Email', value: 'ariyanxd02@gmail.com', icon: 'envelope' }
+        ],
+        skills: ['Python', 'PHP', 'JavaScript', 'Bot Development', 'Web Design'],
+        socialLinks: [
+          { platform: 'Telegram', url: 'https://t.me/nahin_x_bot', icon: 'fab fa-telegram' },
+          { platform: 'GitHub', url: 'https://github.com/ariyan01', icon: 'fab fa-github' }
+        ],
+        visitorCounter: 128,
+        theme: {
+          primaryColor: '#4affd8',
+          accentGlow: '#b07cff',
+          bgStart: '#141b2b',
+          bgEnd: '#0b0f17',
+          fireEnabled: false
+        }
+      };
+
+      // Load from localStorage
+      const saved = localStorage.getItem('portfolioData');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          appData = { ...appData, ...parsed };
+          if (parsed.personalDetails) appData.personalDetails = parsed.personalDetails;
+          if (parsed.details) appData.details = parsed.details;
+          if (parsed.skills) appData.skills = parsed.skills;
+          if (parsed.socialLinks) appData.socialLinks = parsed.socialLinks;
+          if (parsed.theme) appData.theme = { ...appData.theme, ...parsed.theme };
+        } catch (e) {}
+      }
+
+      // Login elements
+      const loginArea = document.getElementById('loginArea');
+      const dashboardArea = document.getElementById('dashboardArea');
+      const loginBtn = document.getElementById('loginBtn');
+      const logoutBtn = document.getElementById('logoutBtn');
+
+      loginBtn.addEventListener('click', () => {
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+        if (user === 'admin' && pass === '10203040') {
+          loginArea.style.display = 'none';
+          dashboardArea.style.display = 'block';
+          renderAdmin();
+        } else {
+          alert('Access denied');
+        }
+      });
+
+      logoutBtn.addEventListener('click', () => {
+        dashboardArea.style.display = 'none';
+        loginArea.style.display = 'block';
+      });
+
+      function renderAdmin() {
+        // Profile
+        document.getElementById('profileImage').value = appData.profile.image || '';
+        document.getElementById('profileName').value = appData.profile.name || '';
+        document.getElementById('profileHeadline').value = appData.profile.headline || '';
+        document.getElementById('profileBio').value = appData.profile.bio || '';
+
+        // Personal Details
+        const personalContainer = document.getElementById('personalDetailsList');
+        personalContainer.innerHTML = '';
+        appData.personalDetails.forEach((item, index) => {
+          const div = document.createElement('div');
+          div.className = 'item-card';
+          div.innerHTML = `
+            <div class="item-fields">
+              <input type="text" class="personal-label" data-index="${index}" value="${item.label}" placeholder="Label">
+              <input type="text" class="personal-value" data-index="${index}" value="${item.value}" placeholder="Value">
+              <input type="text" class="personal-icon" data-index="${index}" value="${item.icon || ''}" placeholder="Icon">
+            </div>
+            <div class="item-actions">
+              <button class="danger delete-personal" data-index="${index}"><i class="fas fa-trash"></i></button>
+            </div>
+          `;
+          personalContainer.appendChild(div);
+        });
+
+        // Details
+        const detailsContainer = document.getElementById('detailsList');
+        detailsContainer.innerHTML = '';
+        appData.details.forEach((detail, index) => {
+          const div = document.createElement('div');
+          div.className = 'item-card';
+          div.innerHTML = `
+            <div class="item-fields">
+              <input type="text" class="detail-label" data-index="${index}" value="${detail.label}" placeholder="Label">
+              <input type="text" class="detail-value" data-index="${index}" value="${detail.value}" placeholder="Value">
+              <input type="text" class="detail-icon" data-index="${index}" value="${detail.icon || ''}" placeholder="Icon">
+            </div>
+            <div class="item-actions">
+              <button class="danger delete-detail" data-index="${index}"><i class="fas fa-trash"></i></button>
+            </div>
+          `;
+          detailsContainer.appendChild(div);
+        });
+
+        // Skills
+        const skillsContainer = document.getElementById('skillsList');
+        skillsContainer.innerHTML = '';
+        appData.skills.forEach((skill, index) => {
+          const div = document.createElement('div');
+          div.className = 'item-card';
+          div.innerHTML = `
+            <div class="item-fields">
+              <input type="text" class="skill-value" data-index="${index}" value="${skill}" placeholder="Skill">
+            </div>
+            <div class="item-actions">
+              <button class="danger delete-skill" data-index="${index}"><i class="fas fa-trash"></i></button>
+            </div>
+          `;
+          skillsContainer.appendChild(div);
+        });
+
+        // Social
+        const socialContainer = document.getElementById('socialList');
+        socialContainer.innerHTML = '';
+        appData.socialLinks.forEach((link, index) => {
+          const div = document.createElement('div');
+          div.className = 'item-card';
+          div.innerHTML = `
+            <div class="item-fields">
+              <input type="text" class="social-platform" data-index="${index}" value="${link.platform}" placeholder="Platform">
+              <input type="text" class="social-url" data-index="${index}" value="${link.url}" placeholder="URL">
+              <input type="text" class="social-icon" data-index="${index}" value="${link.icon || ''}" placeholder="Icon class">
+            </div>
+            <div class="item-actions">
+              <button class="danger delete-social" data-index="${index}"><i class="fas fa-trash"></i></button>
+            </div>
+          `;
+          socialContainer.appendChild(div);
+        });
+
+        // Visitor
+        document.getElementById('visitorCountDisplay').innerText = appData.visitorCounter;
+
+        // Theme
+        document.getElementById('primaryColor').value = appData.theme.primaryColor || '#4affd8';
+        document.getElementById('accentColor').value = appData.theme.accentGlow || '#b07cff';
+        document.getElementById('bgStart').value = appData.theme.bgStart || '#141b2b';
+        document.getElementById('bgEnd').value = appData.theme.bgEnd || '#0b0f17';
+        document.getElementById('fireEffect').checked = appData.theme.fireEnabled || false;
+
+        // Attach delete events
+        attachDeleteEvents();
+        attachInputEvents();
+      }
+
+      function attachDeleteEvents() {
+        document.querySelectorAll('.delete-personal').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const index = e.currentTarget.dataset.index;
+            appData.personalDetails.splice(index, 1);
+            saveToLocalAndRender();
+          });
+        });
+        document.querySelectorAll('.delete-detail').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const index = e.currentTarget.dataset.index;
+            appData.details.splice(index, 1);
+            saveToLocalAndRender();
+          });
+        });
+        document.querySelectorAll('.delete-skill').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const index = e.currentTarget.dataset.index;
+            appData.skills.splice(index, 1);
+            saveToLocalAndRender();
+          });
+        });
+        document.querySelectorAll('.delete-social').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const index = e.currentTarget.dataset.index;
+            appData.socialLinks.splice(index, 1);
+            saveToLocalAndRender();
+          });
+        });
+      }
+
+      function attachInputEvents() {
+        // Personal
+        document.querySelectorAll('.personal-label, .personal-value, .personal-icon').forEach(input => {
+          input.addEventListener('input', (e) => {
+            const index = e.target.dataset.index;
+            const field = e.target.classList.contains('personal-label') ? 'label' : (e.target.classList.contains('personal-value') ? 'value' : 'icon');
+            appData.personalDetails[index][field] = e.target.value;
+            saveToLocal();
+          });
+        });
+        // Details
+        document.querySelectorAll('.detail-label, .detail-value, .detail-icon').forEach(input => {
+          input.addEventListener('input', (e) => {
+            const index = e.target.dataset.index;
+            const field = e.target.classList.contains('detail-label') ? 'label' : (e.target.classList.contains('detail-value') ? 'value' : 'icon');
+            appData.details[index][field] = e.target.value;
+            saveToLocal();
+          });
+        });
+        // Skills
+        document.querySelectorAll('.skill-value').forEach(input => {
+          input.addEventListener('input', (e) => {
+            const index = e.target.dataset.index;
+            appData.skills[index] = e.target.value;
+            saveToLocal();
+          });
+        });
+        // Social
+        document.querySelectorAll('.social-platform, .social-url, .social-icon').forEach(input => {
+          input.addEventListener('input', (e) => {
+            const index = e.target.dataset.index;
+            const field = e.target.classList.contains('social-platform') ? 'platform' : (e.target.classList.contains('social-url') ? 'url' : 'icon');
+            appData.socialLinks[index][field] = e.target.value;
+            saveToLocal();
+          });
+        });
+      }
+
+      function saveToLocal() {
+        localStorage.setItem('portfolioData', JSON.stringify(appData));
+      }
+
+      function saveToLocalAndRender() {
+        saveToLocal();
+        renderAdmin();
+      }
+
+      // Save profile
+      document.getElementById('saveProfileBtn').addEventListener('click', () => {
+        appData.profile.image = document.getElementById('profileImage').value;
+        appData.profile.name = document.getElementById('profileName').value;
+        appData.profile.headline = document.getElementById('profileHeadline').value;
+        appData.profile.bio = document.getElementById('profileBio').value;
+        saveToLocal();
+        alert('Profile updated');
+      });
+
+      // Add personal
+      document.getElementById('addPersonalBtn').addEventListener('click', () => {
+        const label = document.getElementById('newPersonalLabel').value.trim();
+        const value = document.getElementById('newPersonalValue').value.trim();
+        const icon = document.getElementById('newPersonalIcon').value.trim() || 'circle';
+        if (!label || !value) return alert('Label and value required');
+        appData.personalDetails.push({ label, value, icon });
+        saveToLocalAndRender();
+        document.getElementById('newPersonalLabel').value = '';
+        document.getElementById('newPersonalValue').value = '';
+        document.getElementById('newPersonalIcon').value = '';
+      });
+
+      // Add detail
+      document.getElementById('addDetailBtn').addEventListener('click', () => {
+        const label = document.getElementById('newDetailLabel').value.trim();
+        const value = document.getElementById('newDetailValue').value.trim();
+        const icon = document.getElementById('newDetailIcon').value.trim() || 'circle';
+        if (!label || !value) return alert('Label and value required');
+        appData.details.push({ label, value, icon });
+        saveToLocalAndRender();
+        document.getElementById('newDetailLabel').value = '';
+        document.getElementById('newDetailValue').value = '';
+        document.getElementById('newDetailIcon').value = '';
+      });
+
+      // Add skill
+      document.getElementById('addSkillBtn').addEventListener('click', () => {
+        const skill = document.getElementById('newSkill').value.trim();
+        if (!skill) return alert('Skill name required');
+        appData.skills.push(skill);
+        saveToLocalAndRender();
+        document.getElementById('newSkill').value = '';
+      });
+
+      // Add social (NO LIMIT)
+      document.getElementById('addSocialBtn').addEventListener('click', () => {
+        const platform = document.getElementById('newSocialPlatform').value.trim();
+        const url = document.getElementById('newSocialUrl').value.trim();
+        const icon = document.getElementById('newSocialIcon').value.trim() || 'fas fa-link';
+        if (!platform || !url) return alert('Platform and URL required');
+        appData.socialLinks.push({ platform, url, icon });
+        saveToLocalAndRender();
+        document.getElementById('newSocialPlatform').value = '';
+        document.getElementById('newSocialUrl').value = '';
+        document.getElementById('newSocialIcon').value = '';
+      });
+
+      // Reset visitor
+      document.getElementById('resetVisitorBtn').addEventListener('click', () => {
+        appData.visitorCounter = 0;
+        saveToLocalAndRender();
+      });
+
+      // Save theme
+      document.getElementById('saveThemeBtn').addEventListener('click', () => {
+        appData.theme.primaryColor = document.getElementById('primaryColor').value;
+        appData.theme.accentGlow = document.getElementById('accentColor').value;
+        appData.theme.bgStart = document.getElementById('bgStart').value;
+        appData.theme.bgEnd = document.getElementById('bgEnd').value;
+        appData.theme.fireEnabled = document.getElementById('fireEffect').checked;
+        saveToLocal();
+        alert('Theme colors saved');
+      });
+
+      // Save local & download
+      document.getElementById('saveLocalBtn').addEventListener('click', () => {
+        saveToLocal();
+        alert('Data saved to localStorage');
+      });
+
+      document.getElementById('downloadJsonBtn').addEventListener('click', () => {
+        // Final sync
+        appData.profile.image = document.getElementById('profileImage').value;
+        appData.profile.name = document.getElementById('profileName').value;
+        appData.profile.headline = document.getElementById('profileHeadline').value;
+        appData.profile.bio = document.getElementById('profileBio').value;
+        appData.theme.primaryColor = document.getElementById('primaryColor').value;
+        appData.theme.accentGlow = document.getElementById('accentColor').value;
+        appData.theme.bgStart = document.getElementById('bgStart').value;
+        appData.theme.bgEnd = document.getElementById('bgEnd').value;
+        appData.theme.fireEnabled = document.getElementById('fireEffect').checked;
+
+        const jsonStr = JSON.stringify(appData, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'data.json';
+        a.click();
+        alert('data.json downloaded');
+      });
+    })();
+  </script>
+</body>
+</html>
